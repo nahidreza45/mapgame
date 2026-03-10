@@ -281,7 +281,7 @@ body {
 /* ---- SVG MAP PATHS ---- */
 #main-svg {
   width: 100%; height: auto;
-  max-height: 65vh;
+  max-height: 80vh;
 }
 #main-svg path {
   fill: var(--green-dim);
