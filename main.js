@@ -218,7 +218,8 @@ function handleAnswer(clickedId, clickX, clickY) {
 
   if (isCorrect) {
     // Correct
-    state.score  += 2 * (state.streak + 1) + state.timeLeft;
+    let gainScroe = 2 * (state.streak + 1) + state.timeLeft;
+    state.score  += gainScroe;
     state.streak += 1;
     state.correct++;
     if (state.streak > state.bestStreak) state.bestStreak = state.streak;
@@ -227,11 +228,11 @@ function handleAnswer(clickedId, clickX, clickY) {
       clickedPath.classList.add("correct");
     }
     spawnRipple(clickX, clickY, false);
-    spawnScorePop("+2", true, clickX, clickY - 20);
+    spawnScorePop(`+${gainScroe}`, true, clickX, clickY - 50);
     showToast(`${DIVISIONS[clickedId]} — Correct!`, "✓", false);
   } else {
     // Wrong
-    state.score  = Math.max(0, state.score - 1);
+    state.score  = Math.max(0, state.score - 10);
     state.streak = 0;
     if (clickedPath) clickedPath.classList.add("wrong");
     if (targetPath)  {
@@ -239,7 +240,7 @@ function handleAnswer(clickedId, clickX, clickY) {
       targetPath.classList.add("correct"); // reveal where it was
     }
     spawnRipple(clickX, clickY, true);
-    spawnScorePop("−1", false, clickX, clickY - 20);
+    spawnScorePop("−10", false, clickX, clickY - 50);
     showToast(`It was ${DIVISIONS[state.targetId]}!`, "✗", true);
   }
 
@@ -261,7 +262,7 @@ function handleTimeout() {
   if (state.answered) return;
   state.answered = true;
 
-  state.score  = Math.max(0, state.score - 1);
+  state.score  = Math.max(0, state.score - 10);
   state.streak = 0;
 
   const targetPath = DOM.mainSvg.querySelector(`#${state.targetId}`);
@@ -270,7 +271,7 @@ function handleTimeout() {
     targetPath.classList.add("wrong");
   }
   showToast(`Time's up! It was ${DIVISIONS[state.targetId]}`, "⏱", true);
-  spawnScorePop("−1", false, window.innerWidth / 2, window.innerHeight / 2);
+  spawnScorePop("−10", false, window.innerWidth / 2, window.innerHeight / 2);
 
   updateScoreUI(true);
   updateStreakUI(true);
